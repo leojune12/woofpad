@@ -30988,9 +30988,12 @@ var render = function() {
                                               staticClass:
                                                 "h-8 w-8 rounded-full object-cover",
                                               attrs: {
-                                                src:
-                                                  _vm.$page.props.user
-                                                    .profile_photo_url,
+                                                src: _vm.$page.props.user
+                                                  .profile_photo_path
+                                                  ? "/storage/" +
+                                                    _vm.$page.props.user
+                                                      .profile_photo_path
+                                                  : "/storage/profile-photos/anonymous.png",
                                                 alt: _vm.$page.props.user.name
                                               }
                                             })
@@ -31237,16 +31240,26 @@ var render = function() {
                   [
                     _c("div", { staticClass: "flex items-center px-4" }, [
                       _vm.$page.props.jetstream.managesProfilePhotos
-                        ? _c("div", { staticClass: "flex-shrink-0 mr-3" }, [
-                            _c("img", {
-                              staticClass:
-                                "h-10 w-10 rounded-full object-cover",
-                              attrs: {
-                                src: _vm.$page.props.user.profile_photo_url,
-                                alt: _vm.$page.props.user.name
-                              }
-                            })
-                          ])
+                        ? _c(
+                            "div",
+                            {
+                              staticClass: "flex-shrink-0 mr-3",
+                              attrs: { alt: _vm.$page.props.user.name }
+                            },
+                            [
+                              _c("img", {
+                                staticClass:
+                                  "h-10 w-10 rounded-full object-cover",
+                                attrs: {
+                                  src: _vm.$page.props.user.profile_photo_path
+                                    ? "/storage/" +
+                                      _vm.$page.props.user.profile_photo_path
+                                    : "/storage/profile-photos/anonymous.png",
+                                  alt: _vm.$page.props.user.name
+                                }
+                              })
+                            ]
+                          )
                         : _vm._e(),
                       _vm._v(" "),
                       _c("div", [
@@ -34401,7 +34414,9 @@ var render = function() {
                         _c("img", {
                           staticClass: "rounded-full h-20 w-20 object-cover",
                           attrs: {
-                            src: _vm.user.profile_photo_url,
+                            src: _vm.user.profile_photo_path
+                              ? "/storage/" + _vm.user.profile_photo_path
+                              : "/storage/profile-photos/anonymous.png",
                             alt: _vm.user.name
                           }
                         })
