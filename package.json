@@ -27,6 +27,7 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "@inertiajs/progress": "^0.2.4"
+        "@inertiajs/progress": "^0.2.4",
+        "vue-infinite-loading": "^2.4.5"
     }
 }
