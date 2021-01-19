@@ -41,16 +41,19 @@
         },
         data () {
             return {
-                photoUrls: [],
+                photoUrls: [
+                    // {
+                    //     url: '',
+                    //     likes: null,
+                    //     comments: null
+                    // }
+                ],
                 bottomOfWindow: null
             }
         },
         mounted() {
-            //this.loadPhotos()
-            //this.loadMorePhotos()
         },
         methods: {
-
             loadPhotos ($state) {
                 fetch('https://dog.ceo/api/breeds/image/random/10')
                     .then(response => response.json())
@@ -58,17 +61,10 @@
                         this.photoUrls = [...this.photoUrls, ...response.message]
                     })
                     .then(() => $state.loaded())
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             },
-
-            loadMorePhotos () {
-                window.onscroll = () => {
-                    this.bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
-
-                    if (this.bottomOfWindow) {
-                        this.loadPhotos()
-                    }
-                };
-            }
         }
     }
 </script>

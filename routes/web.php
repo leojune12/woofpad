@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\LikeController;
+use App\Models\Like;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -31,3 +34,16 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->name('dashboard');
+
+//Route::get('/like', function () {
+//    Like::create([
+//        'user_id' => Auth::id(),
+//        'photo_url' => 'google.com'
+//    ]);
+//});
+
+//Route::resource('/like', LikeController::class);
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::resource('/like', LikeController::class);
+});

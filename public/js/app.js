@@ -1948,9 +1948,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "DogCards",
-  props: ['photoUrl']
+  data: function data() {
+    return {
+      is_liked: false
+    };
+  },
+  props: ['photoUrl'],
+  methods: {
+    likePhoto: function likePhoto() {
+      var _this = this;
+
+      axios.post('/like', {
+        photo_url: this.photoUrl,
+        user_id: this.$page.props.user.id
+      }).then(function (response) {
+        console.log(response.data);
+        _this.is_liked = response.data.is_liked;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -4432,13 +4458,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   },
   data: function data() {
     return {
-      photoUrls: [],
+      photoUrls: [// {
+        //     url: '',
+        //     likes: null,
+        //     comments: null
+        // }
+      ],
       bottomOfWindow: null
     };
   },
-  mounted: function mounted() {//this.loadPhotos()
-    //this.loadMorePhotos()
-  },
+  mounted: function mounted() {},
   methods: {
     loadPhotos: function loadPhotos($state) {
       var _this = this;
@@ -4449,18 +4478,9 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
         _this.photoUrls = [].concat(_toConsumableArray(_this.photoUrls), _toConsumableArray(response.message));
       }).then(function () {
         return $state.loaded();
+      })["catch"](function (error) {
+        console.log(error);
       });
-    },
-    loadMorePhotos: function loadMorePhotos() {
-      var _this2 = this;
-
-      window.onscroll = function () {
-        _this2.bottomOfWindow = document.documentElement.scrollTop + window.innerHeight === document.documentElement.offsetHeight;
-
-        if (_this2.bottomOfWindow) {
-          _this2.loadPhotos();
-        }
-      };
     }
   }
 });
@@ -29148,39 +29168,64 @@ var render = function() {
           "button",
           {
             staticClass:
-              "h-10 px-5 text-gray-500 rounded-lg hover:bg-gray-200 hover:text-indigo-100 focus:outline-none flex-grow text-center"
+              "h-10 px-5 text-gray-500 rounded-lg focus:outline-none flex-grow text-center hover:bg-gray-200 active:bg-gray-300",
+            on: { click: _vm.likePhoto }
           },
           [
             _c("div", { staticClass: "flex justify-center" }, [
-              _c("div", { staticClass: "flex text-gray-500" }, [
-                _c("div", { staticClass: "mr-2" }, [
+              _c(
+                "div",
+                {
+                  staticClass: "flex text-gray-500",
+                  class: { "text-blue-600": _vm.is_liked }
+                },
+                [
+                  _c("div", { staticClass: "mr-2" }, [
+                    _vm.is_liked
+                      ? _c(
+                          "svg",
+                          {
+                            staticStyle: { width: "20px", height: "20px" },
+                            attrs: { viewBox: "0 0 24 24" }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                fill: "currentColor",
+                                d:
+                                  "M23,10C23,8.89 22.1,8 21,8H14.68L15.64,3.43C15.66,3.33 15.67,3.22 15.67,3.11C15.67,2.7 15.5,2.32 15.23,2.05L14.17,1L7.59,7.58C7.22,7.95 7,8.45 7,9V19A2,2 0 0,0 9,21H18C18.83,21 19.54,20.5 19.84,19.78L22.86,12.73C22.95,12.5 23,12.26 23,12V10M1,21H5V9H1V21Z"
+                              }
+                            })
+                          ]
+                        )
+                      : _c(
+                          "svg",
+                          {
+                            staticStyle: { width: "20px", height: "20px" },
+                            attrs: { viewBox: "0 0 24 24" }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                fill: "currentColor",
+                                d:
+                                  "M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z"
+                              }
+                            })
+                          ]
+                        )
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "svg",
+                    "div",
                     {
-                      staticStyle: { width: "20px", height: "20px" },
-                      attrs: { viewBox: "0 0 24 24" }
+                      staticClass: "font-bold",
+                      staticStyle: { "font-size": "15px" }
                     },
-                    [
-                      _c("path", {
-                        attrs: {
-                          fill: "currentColor",
-                          d:
-                            "M5,9V21H1V9H5M9,21A2,2 0 0,1 7,19V9C7,8.45 7.22,7.95 7.59,7.59L14.17,1L15.23,2.06C15.5,2.33 15.67,2.7 15.67,3.11L15.64,3.43L14.69,8H21C22.11,8 23,8.9 23,10V12C23,12.26 22.95,12.5 22.86,12.73L19.84,19.78C19.54,20.5 18.83,21 18,21H9M9,19H18.03L21,12V10H12.21L13.34,4.68L9,9.03V19Z"
-                        }
-                      })
-                    ]
+                    [_vm._v("Like")]
                   )
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "font-bold",
-                    staticStyle: { "font-size": "15px" }
-                  },
-                  [_vm._v("Like")]
-                )
-              ])
+                ]
+              )
             ])
           ]
         ),
