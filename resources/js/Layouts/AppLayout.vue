@@ -10,17 +10,18 @@
                         <div class="flex">
                             <!-- Logo -->
                             <div class="flex-shrink-0 flex items-center">
-                                <inertia-link :href="route('dashboard')">
+                                <inertia-link :href="route('home')" class="flex items-center">
                                     <jet-application-mark class="block h-9 w-auto" />
+                                    <p class="ml-2 text-2xl font-black font-sans app-color">Woofpad</p>
                                 </inertia-link>
                             </div>
 
                             <!-- Navigation Links -->
-                            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <!--<div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                                 <jet-nav-link :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </jet-nav-link>
-                            </div>
+                            </div>-->
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
