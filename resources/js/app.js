@@ -12,7 +12,9 @@ Vue.use(PortalVue);
 
 const app = document.getElementById('app');
 
-InertiaProgress.init();
+InertiaProgress.init({
+    color: '#7b3694'
+});
 
 new Vue({
     render: (h) =>

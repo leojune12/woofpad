@@ -743,8 +743,16 @@ select {
   outline: 1px auto -webkit-focus-ring-color;
 }
 
-.app-color {
-  color: #6B357F !important;
+.text-app-color {
+  color: #6B357F;
+}
+
+.bg-app-color {
+  background-color: #6B357F;
+}
+
+.bg-app-color:hover {
+  background-color: #7b3694;
 }
 
 .container {
