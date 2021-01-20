@@ -236,7 +236,14 @@
                 showingNavigationDropdown: false,
             }
         },
-
+        computed: {
+            count () {
+                return this.$store.state.data
+            }
+        },
+        mounted() {
+            console.log(this.count)
+        },
         methods: {
             switchToTeam(team) {
                 this.$inertia.put(route('current-team.update'), {
