@@ -6,7 +6,7 @@
             <nav class="bg-white border-b border-gray-100 w-full sticky top-0">
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="flex justify-between items-center h-16">
+                    <div class="flex justify-between items-center h-12">
                         <div>
                             <!-- Logo -->
                             <div class="flex-shrink-0 flex items-center">
@@ -194,14 +194,12 @@
                         </inertia-link>
                     </div>
                 </div>
+                <header class="bg-white shadow">
+                    <div class="mx-auto py-2 px-4 sm:px-6 lg:px-8">
+                        <slot name="dropdown-filter"></slot>
+                    </div>
+                </header>
             </nav>
-
-            <!-- Page Heading -->
-            <!--<header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    <slot name="header"></slot>
-                </div>
-            </header>-->
 
             <!-- Page Content -->
             <main>
