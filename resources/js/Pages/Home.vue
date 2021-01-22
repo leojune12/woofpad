@@ -11,7 +11,7 @@
                 <div
                     class="md:col-span-5 mb-2 md:mb-0 hidden md:block"
                 >
-                    <div class="bg-white md:rounded-lg rounded-none shadow p-4 sticky top-20">
+                    <div class="bg-white md:rounded-lg rounded-none shadow p-4 sticky top-24">
                         <dropdown-filter></dropdown-filter>
                     </div>
                 </div>

@@ -33304,7 +33304,7 @@ var render = function() {
                 [
                   _c(
                     "div",
-                    { staticClass: "flex justify-between items-center h-12" },
+                    { staticClass: "flex justify-between items-center h-16" },
                     [
                       _c("div", [
                         _c(
@@ -35856,7 +35856,7 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "bg-white md:rounded-lg rounded-none shadow p-4 sticky top-20"
+                      "bg-white md:rounded-lg rounded-none shadow p-4 sticky top-24"
                   },
                   [_c("dropdown-filter")],
                   1
