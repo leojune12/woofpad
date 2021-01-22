@@ -194,7 +194,7 @@
                         </inertia-link>
                     </div>
                 </div>
-                <header class="bg-white shadow">
+                <header class="bg-white shadow md:hidden">
                     <div class="mx-auto py-2 px-4 sm:px-6 lg:px-8">
                         <slot name="dropdown-filter"></slot>
                     </div>
@@ -235,14 +235,6 @@
             return {
                 showingNavigationDropdown: false,
             }
-        },
-        computed: {
-            count () {
-                return this.$store.state.data
-            }
-        },
-        mounted() {
-            console.log(this.count)
         },
         methods: {
             switchToTeam(team) {

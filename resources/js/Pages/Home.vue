@@ -5,23 +5,26 @@
         </template>
         <div class="flex justify-center w-full">
             <div
-                class="mt-2 md:mt-4 grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4 w-full"
+                class="mt-2 md:mt-8 grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-x-8 md:gap-y-8 w-full"
                 style="max-width: 900px;"
             >
                 <div
-                    class="md:col-span-5 mb-2 md:mb-0"
+                    class="md:col-span-5 mb-2 md:mb-0 hidden md:block"
                 >
-                    <about-me></about-me>
+                    <div class="bg-white md:rounded-lg rounded-none shadow p-4 sticky top-20">
+                        <dropdown-filter></dropdown-filter>
+                    </div>
                 </div>
                 <div
                     class="md:col-span-7 mb-2"
                 >
                     <dog-cards
+                        v-if="photoUrls"
                         v-for="url in photoUrls"
                         :key="url"
                         :photo-url="url"
                     ></dog-cards>
-                    <infinite-loading @infinite="loadPhotos" spinner="spiral"></infinite-loading>
+                    <infinite-loading :identifier="infiniteId" @infinite="loadPhotos" spinner="spiral"></infinite-loading>
                 </div>
             </div>
         </div>
@@ -34,6 +37,7 @@
     import DogCards from "../Components/DogCards";
     import InfiniteLoading from 'vue-infinite-loading';
     import DropdownFilter from "@/Components/DropdownFilter";
+    import { mapActions } from 'vuex'
 
     export default {
         name: "Home",
@@ -44,30 +48,26 @@
             InfiniteLoading,
             DropdownFilter
         },
-        data () {
-            return {
-                photoUrls: [
-                    // {
-                    //     url: '',
-                    //     likes: null,
-                    //     comments: null
-                    // }
-                ],
-                bottomOfWindow: null,
-                randomBreedUrl: 'https://dog.ceo/api/breeds/image/random/10'
-            }
+        computed: {
+            photoUrls: {
+                get: function() { return this.$store.state.photoUrls },
+                set: function(payload) { this.$store.dispatch('setPhotoUrls', payload) }
+            },
+            randomBreedUrl () { return this.$store.state.randomBreedUrl },
+            currentUrl () { return this.$store.state.currentUrl },
+            infiniteId () { return this.$store.state.infiniteId },
         },
         methods: {
+            ...mapActions([
+                'loadCustomBreedPhotos'
+            ]),
+
             loadPhotos ($state) {
-                fetch(this.randomBreedUrl)
+                fetch(this.currentUrl)
                     .then(response => response.json())
-                    .then(response => {
-                        this.photoUrls = [...this.photoUrls, ...response.message]
-                    })
+                    .then(response => this.photoUrls.push(...response.message))
                     .then(() => $state.loaded())
-                    .catch(function (error) {
-                        console.log(error);
-                    });
+                    .catch(error => console.log(error))
             },
         }
     }

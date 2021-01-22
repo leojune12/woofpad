@@ -1992,6 +1992,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.mjs");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2061,30 +2068,124 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "DropdownFilter",
   data: function data() {
     return {
       showMenu: false,
-      breeds: []
+      breeds: {},
+      randomBreedUrl: 'https://dog.ceo/api/breeds/image/random/10',
+      allBreedsUrl: 'https://dog.ceo/api/breeds/list/all',
+      currentBreed: 'Random Breeds'
     };
   },
   mounted: function mounted() {
     this.getAllBreeds();
   },
-  methods: {
+  computed: {
+    currentUrl: {
+      get: function get() {
+        return this.$store.state.currentUrl;
+      },
+      set: function set(url) {
+        this.setCurrentUrl(url);
+      }
+    },
+    previousUrl: {
+      get: function get() {
+        return this.$store.state.previousUrl;
+      },
+      set: function set(url) {
+        this.setPreviousUrl(url);
+      }
+    },
+    photoUrls: {
+      get: function get() {
+        return this.$store.state.photoUrls;
+      },
+      set: function set(payload) {
+        this.setPhotoUrls(payload);
+      }
+    }
+  },
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['incrementInfiniteId', 'setPhotoUrls', 'setPreviousUrl', 'setCurrentUrl'])), {}, {
     getAllBreeds: function getAllBreeds() {
       var _this = this;
 
-      fetch('https://dog.ceo/api/breeds/list/all').then(function (response) {
+      fetch(this.allBreedsUrl).then(function (response) {
         return response.json();
       }).then(function (response) {
-        _this.breeds = response.message;
+        return _this.breeds = response.message;
       })["catch"](function (error) {
-        console.log(error);
+        return console.log(error);
       });
+    },
+    changeCurrentUrl: function changeCurrentUrl(newUrl, breed) {
+      if (this.previousUrl !== newUrl) {
+        this.previousUrl = newUrl;
+        this.photoUrls = [];
+      }
+
+      this.currentUrl = newUrl;
+      this.currentBreed = breed;
+      this.showMenu = false;
+      this.incrementInfiniteId(1);
     }
-  }
+  })
 });
 
 /***/ }),
@@ -3424,14 +3525,6 @@ __webpack_require__.r(__webpack_exports__);
       showingNavigationDropdown: false
     };
   },
-  computed: {
-    count: function count() {
-      return this.$store.state.data;
-    }
-  },
-  mounted: function mounted() {
-    console.log(this.count);
-  },
   methods: {
     switchToTeam: function switchToTeam(team) {
       this.$inertia.put(route('current-team.update'), {
@@ -4507,6 +4600,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-infinite-loading */ "./node_modules/vue-infinite-loading/dist/vue-infinite-loading.js");
 /* harmony import */ var vue_infinite_loading__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_infinite_loading__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _Components_DropdownFilter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Components/DropdownFilter */ "./resources/js/Components/DropdownFilter.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.mjs");
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -4519,6 +4613,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -4549,6 +4649,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //
 //
 //
+//
+//
+//
+
 
 
 
@@ -4563,33 +4667,42 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     InfiniteLoading: (vue_infinite_loading__WEBPACK_IMPORTED_MODULE_3___default()),
     DropdownFilter: _Components_DropdownFilter__WEBPACK_IMPORTED_MODULE_4__.default
   },
-  data: function data() {
-    return {
-      photoUrls: [// {
-        //     url: '',
-        //     likes: null,
-        //     comments: null
-        // }
-      ],
-      bottomOfWindow: null,
-      randomBreedUrl: 'https://dog.ceo/api/breeds/image/random/10'
-    };
+  computed: {
+    photoUrls: {
+      get: function get() {
+        return this.$store.state.photoUrls;
+      },
+      set: function set(payload) {
+        this.$store.dispatch('setPhotoUrls', payload);
+      }
+    },
+    randomBreedUrl: function randomBreedUrl() {
+      return this.$store.state.randomBreedUrl;
+    },
+    currentUrl: function currentUrl() {
+      return this.$store.state.currentUrl;
+    },
+    infiniteId: function infiniteId() {
+      return this.$store.state.infiniteId;
+    }
   },
-  methods: {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)(['loadCustomBreedPhotos'])), {}, {
     loadPhotos: function loadPhotos($state) {
       var _this = this;
 
-      fetch(this.randomBreedUrl).then(function (response) {
+      fetch(this.currentUrl).then(function (response) {
         return response.json();
       }).then(function (response) {
-        _this.photoUrls = [].concat(_toConsumableArray(_this.photoUrls), _toConsumableArray(response.message));
+        var _this$photoUrls;
+
+        return (_this$photoUrls = _this.photoUrls).push.apply(_this$photoUrls, _toConsumableArray(response.message));
       }).then(function () {
         return $state.loaded();
       })["catch"](function (error) {
-        console.log(error);
+        return console.log(error);
       });
     }
-  }
+  })
 });
 
 /***/ }),
@@ -5786,33 +5899,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 var actions = {
-  SET_DRAWER: function SET_DRAWER(_ref, payload) {
+  setPhotoUrls: function setPhotoUrls(_ref, payload) {
     var commit = _ref.commit;
-    commit('SET_DRAWER_MUTATION', payload);
+    commit('setPhotoUrlsMutation', payload);
   },
-  SET_DRAWER_LINKS: function SET_DRAWER_LINKS(_ref2, payload) {
+  incrementInfiniteId: function incrementInfiniteId(_ref2, payload) {
     var commit = _ref2.commit;
-    commit('SET_DRAWER_LINKS_MUTATION', payload);
+    commit('incrementInfiniteIdMutation', payload);
   },
-  SUCCESS_SNACKBAR: function SUCCESS_SNACKBAR(_ref3, payload) {
+  setPreviousUrl: function setPreviousUrl(_ref3, payload) {
     var commit = _ref3.commit;
-    commit('SUCCESS_SNACKBAR_MUTATION', payload);
+    commit('setPreviousUrlMutation', payload);
   },
-  ERROR_SNACKBAR: function ERROR_SNACKBAR(_ref4, payload) {
+  setCurrentUrl: function setCurrentUrl(_ref4, payload) {
     var commit = _ref4.commit;
-    commit('ERROR_SNACKBAR_MUTATION', payload);
-  },
-  TOGGLE_SNACKBAR: function TOGGLE_SNACKBAR(_ref5, payload) {
-    var commit = _ref5.commit;
-    commit('TOGGLE_SNACKBAR_MUTATION');
-  },
-  OPEN_LOADING_DIALOG: function OPEN_LOADING_DIALOG(_ref6, payload) {
-    var commit = _ref6.commit;
-    commit('TOGGLE_LOADING_DIALOG_MUTATION', true);
-  },
-  CLOSE_LOADING_DIALOG: function CLOSE_LOADING_DIALOG(_ref7, payload) {
-    var commit = _ref7.commit;
-    commit('TOGGLE_LOADING_DIALOG_MUTATION', false);
+    commit('setCurrentUrlMutation', payload);
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (actions);
@@ -5882,33 +5983,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 var mutations = {
-  SET_DRAWER_MUTATION: function SET_DRAWER_MUTATION(state, payload) {
-    state.drawer = payload;
+  setPhotoUrlsMutation: function setPhotoUrlsMutation(state, payload) {
+    state.photoUrls = payload;
   },
-  SET_DRAWER_LINKS_MUTATION: function SET_DRAWER_LINKS_MUTATION(state, payload) {
-    state.drawerLinks[payload] = true;
+  incrementInfiniteIdMutation: function incrementInfiniteIdMutation(state, payload) {
+    state.infiniteId += payload;
   },
-  SUCCESS_SNACKBAR_MUTATION: function SUCCESS_SNACKBAR_MUTATION(state, payload) {
-    state.snackbar['text'] = payload;
-    state.snackbar['color'] = 'success';
-    state.snackbar['value'] = false;
-    setTimeout(function () {
-      state.snackbar['value'] = true;
-    }, 600);
+  setPreviousUrlMutation: function setPreviousUrlMutation(state, payload) {
+    state.previousUrl = payload;
   },
-  ERROR_SNACKBAR_MUTATION: function ERROR_SNACKBAR_MUTATION(state, payload) {
-    state.snackbar['text'] = payload;
-    state.snackbar['color'] = 'error';
-    state.snackbar['value'] = false;
-    setTimeout(function () {
-      state.snackbar['value'] = true;
-    }, 600);
-  },
-  TOGGLE_SNACKBAR_MUTATION: function TOGGLE_SNACKBAR_MUTATION(state) {
-    state.snackbar.value = !state.snackbar.value;
-  },
-  TOGGLE_LOADING_DIALOG_MUTATION: function TOGGLE_LOADING_DIALOG_MUTATION(state, payload) {
-    state.loadingDialog = payload;
+  setCurrentUrlMutation: function setCurrentUrlMutation(state, payload) {
+    state.currentUrl = payload;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mutations);
@@ -5927,7 +6012,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
 var state = {
-  data: 'test data'
+  randomBreedUrl: 'https://dog.ceo/api/breeds/image/random/10',
+  photoUrls: [],
+  currentUrl: 'https://dog.ceo/api/breeds/image/random/10',
+  previousUrl: 'https://dog.ceo/api/breeds/image/random/10',
+  infiniteId: 0
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (state);
 
@@ -30859,8 +30948,17 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "mt-1 w-full md:w-52" },
+    { staticClass: "w-full" },
     [
+      _c(
+        "label",
+        {
+          staticClass: "block text-sm font-medium text-gray-700 mr-2",
+          attrs: { id: "listbox-label" }
+        },
+        [_vm._v("\n        Filter by\n    ")]
+      ),
+      _vm._v(" "),
       _c(
         "button",
         {
@@ -30879,7 +30977,15 @@ var render = function() {
           }
         },
         [
-          _vm._m(0),
+          _c("span", { staticClass: "flex items-center" }, [
+            _c("span", { staticClass: "block truncate capitalize" }, [
+              _vm._v(
+                "\n                " +
+                  _vm._s(_vm.currentBreed) +
+                  "\n            "
+              )
+            ])
+          ]),
           _vm._v(" "),
           _c(
             "span",
@@ -30939,7 +31045,7 @@ var render = function() {
                   expression: "showMenu"
                 }
               ],
-              staticClass: "absolute mt-1 w-full rounded-md bg-white shadow-lg"
+              staticClass: "absolute mt-1 w-80 rounded-md bg-white shadow-lg"
             },
             [
               _c(
@@ -30954,25 +31060,28 @@ var render = function() {
                     "aria-activedescendant": "listbox-item-3"
                   }
                 },
-                _vm._l(Object.getOwnPropertyNames(_vm.breeds), function(
-                  breed,
-                  i
-                ) {
-                  return _c(
+                [
+                  _c(
                     "li",
                     {
-                      key: i,
                       staticClass:
                         "text-gray-900 cursor-default select-none relative",
-                      class: [breed === "__ob__" ? "hidden" : ""],
-                      attrs: { id: "listbox-item-0", role: "option" }
+                      attrs: { role: "option" }
                     },
                     [
                       _c(
                         "div",
                         {
                           staticClass:
-                            "flex items-center py-1 hover:bg-gray-200 pl-3 cursor-pointer"
+                            "flex items-center py-1 hover:bg-gray-200 pl-3 cursor-pointer",
+                          on: {
+                            click: function($event) {
+                              return _vm.changeCurrentUrl(
+                                _vm.randomBreedUrl,
+                                "Random Breeds"
+                              )
+                            }
+                          }
                         },
                         [
                           _c(
@@ -30983,83 +31092,250 @@ var render = function() {
                             },
                             [
                               _vm._v(
-                                "\n                            " +
-                                  _vm._s(breed) +
-                                  "\n                        "
+                                "\n                            Random Breeds\n                        "
                               )
                             ]
                           )
                         ]
                       ),
                       _vm._v(" "),
-                      _vm.breeds[breed].length
-                        ? _c("div", [
+                      _vm.currentBreed === "Random Breeds"
+                        ? _c(
+                            "span",
+                            {
+                              staticClass:
+                                "absolute inset-y-0 right-0 flex items-center pr-4"
+                            },
+                            [
+                              _c(
+                                "svg",
+                                {
+                                  staticClass: "h-5 w-5",
+                                  attrs: {
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    viewBox: "0 0 20 20",
+                                    fill: "currentColor",
+                                    "aria-hidden": "true"
+                                  }
+                                },
+                                [
+                                  _c("path", {
+                                    attrs: {
+                                      "fill-rule": "evenodd",
+                                      d:
+                                        "M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z",
+                                      "clip-rule": "evenodd"
+                                    }
+                                  })
+                                ]
+                              )
+                            ]
+                          )
+                        : _vm._e()
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _vm._l(Object.getOwnPropertyNames(_vm.breeds), function(
+                    breed,
+                    i
+                  ) {
+                    return _c(
+                      "li",
+                      {
+                        key: i,
+                        staticClass:
+                          "text-gray-900 cursor-default select-none relative",
+                        class: [breed === "__ob__" ? "hidden" : ""],
+                        attrs: { id: "listbox-item-0", role: "option" }
+                      },
+                      [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "flex items-center py-1 hover:bg-gray-200 pl-3 cursor-pointer",
+                            on: {
+                              click: function($event) {
+                                return _vm.changeCurrentUrl(
+                                  "https://dog.ceo/api/breed/" +
+                                    breed +
+                                    "/images/random/10",
+                                  breed
+                                )
+                              }
+                            }
+                          },
+                          [
                             _c(
-                              "div",
+                              "span",
                               {
                                 staticClass:
-                                  "block px-6 text-xs text-gray-400 capitalize"
+                                  "ml-3 block font-normal truncate capitalize"
                               },
                               [
                                 _vm._v(
                                   "\n                            " +
                                     _vm._s(breed) +
-                                    " Sub Breed"
-                                ),
-                                _vm.breeds[breed].length > 1
-                                  ? _c("span", [_vm._v("s")])
-                                  : _vm._e()
+                                    "\n                        "
+                                )
                               ]
-                            ),
-                            _vm._v(" "),
-                            _c(
-                              "ul",
-                              _vm._l(_vm.breeds[breed], function(subBreed) {
-                                return _c(
-                                  "li",
+                            )
+                          ]
+                        ),
+                        _vm._v(" "),
+                        _vm.breeds[breed].length
+                          ? _c("div", [
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "block px-6 text-xs text-gray-400 capitalize"
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                            " +
+                                      _vm._s(breed) +
+                                      " Sub Breed"
+                                  ),
+                                  _vm.breeds[breed].length > 1
+                                    ? _c("span", [_vm._v("s")])
+                                    : _vm._e()
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "ul",
+                                _vm._l(_vm.breeds[breed], function(subBreed) {
+                                  return _c(
+                                    "li",
+                                    {
+                                      staticClass:
+                                        "pl-6 py-1 capitalize hover:bg-gray-200 flex cursor-pointer",
+                                      on: {
+                                        click: function($event) {
+                                          return _vm.changeCurrentUrl(
+                                            "https://dog.ceo/api/breed/" +
+                                              breed +
+                                              "/" +
+                                              subBreed +
+                                              "/images/random/10",
+                                            subBreed + " " + breed
+                                          )
+                                        }
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "svg",
+                                        {
+                                          staticStyle: {
+                                            width: "24px",
+                                            height: "24px"
+                                          },
+                                          attrs: { viewBox: "0 0 24 24" }
+                                        },
+                                        [
+                                          _c("path", {
+                                            attrs: {
+                                              fill: "currentColor",
+                                              d:
+                                                "M12,10A2,2 0 0,0 10,12C10,13.11 10.9,14 12,14C13.11,14 14,13.11 14,12A2,2 0 0,0 12,10Z"
+                                            }
+                                          })
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("div", [
+                                        _c("span", [
+                                          _vm._v(
+                                            "\n                                        " +
+                                              _vm._s(subBreed + " " + breed) +
+                                              "\n                                    "
+                                          )
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _vm.currentBreed ===
+                                      subBreed + " " + breed
+                                        ? _c(
+                                            "span",
+                                            {
+                                              staticClass:
+                                                "items-center pr-4 ml-auto"
+                                            },
+                                            [
+                                              _c(
+                                                "svg",
+                                                {
+                                                  staticClass: "h-5 w-5",
+                                                  attrs: {
+                                                    xmlns:
+                                                      "http://www.w3.org/2000/svg",
+                                                    viewBox: "0 0 20 20",
+                                                    fill: "currentColor",
+                                                    "aria-hidden": "true"
+                                                  }
+                                                },
+                                                [
+                                                  _c("path", {
+                                                    attrs: {
+                                                      "fill-rule": "evenodd",
+                                                      d:
+                                                        "M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z",
+                                                      "clip-rule": "evenodd"
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        : _vm._e()
+                                    ]
+                                  )
+                                }),
+                                0
+                              )
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.currentBreed === breed
+                          ? _c(
+                              "span",
+                              {
+                                staticClass:
+                                  "absolute inset-y-0 right-0 flex items-center pr-4"
+                              },
+                              [
+                                _c(
+                                  "svg",
                                   {
-                                    staticClass:
-                                      "block pl-6 py-1 capitalize hover:bg-gray-200 flex cursor-pointer"
+                                    staticClass: "h-5 w-5",
+                                    attrs: {
+                                      xmlns: "http://www.w3.org/2000/svg",
+                                      viewBox: "0 0 20 20",
+                                      fill: "currentColor",
+                                      "aria-hidden": "true"
+                                    }
                                   },
                                   [
-                                    _c(
-                                      "svg",
-                                      {
-                                        staticStyle: {
-                                          width: "24px",
-                                          height: "24px"
-                                        },
-                                        attrs: { viewBox: "0 0 24 24" }
-                                      },
-                                      [
-                                        _c("path", {
-                                          attrs: {
-                                            fill: "currentColor",
-                                            d:
-                                              "M12,10A2,2 0 0,0 10,12C10,13.11 10.9,14 12,14C13.11,14 14,13.11 14,12A2,2 0 0,0 12,10Z"
-                                          }
-                                        })
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c("span", [
-                                      _vm._v(
-                                        "\n                                    " +
-                                          _vm._s(subBreed) +
-                                          "\n                                "
-                                      )
-                                    ])
+                                    _c("path", {
+                                      attrs: {
+                                        "fill-rule": "evenodd",
+                                        d:
+                                          "M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z",
+                                        "clip-rule": "evenodd"
+                                      }
+                                    })
                                   ]
                                 )
-                              }),
-                              0
+                              ]
                             )
-                          ])
-                        : _vm._e()
-                    ]
-                  )
-                }),
-                0
+                          : _vm._e()
+                      ]
+                    )
+                  })
+                ],
+                2
               )
             ]
           )
@@ -31069,18 +31345,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "flex items-center" }, [
-      _c("span", { staticClass: "block truncate" }, [
-        _vm._v("\n                Show all breeds\n            ")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -33767,7 +34032,7 @@ var render = function() {
                 ]
               ),
               _vm._v(" "),
-              _c("header", { staticClass: "bg-white shadow" }, [
+              _c("header", { staticClass: "bg-white shadow md:hidden" }, [
                 _c(
                   "div",
                   { staticClass: "mx-auto py-2 px-4 sm:px-6 lg:px-8" },
@@ -35579,15 +35844,24 @@ var render = function() {
           "div",
           {
             staticClass:
-              "mt-2 md:mt-4 grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-4 w-full",
+              "mt-2 md:mt-8 grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-x-8 md:gap-y-8 w-full",
             staticStyle: { "max-width": "900px" }
           },
           [
             _c(
               "div",
-              { staticClass: "md:col-span-5 mb-2 md:mb-0" },
-              [_c("about-me")],
-              1
+              { staticClass: "md:col-span-5 mb-2 md:mb-0 hidden md:block" },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "bg-white md:rounded-lg rounded-none shadow p-4 sticky top-20"
+                  },
+                  [_c("dropdown-filter")],
+                  1
+                )
+              ]
             ),
             _vm._v(" "),
             _c(
@@ -35595,14 +35869,13 @@ var render = function() {
               { staticClass: "md:col-span-7 mb-2" },
               [
                 _vm._l(_vm.photoUrls, function(url) {
-                  return _c("dog-cards", {
-                    key: url,
-                    attrs: { "photo-url": url }
-                  })
+                  return _vm.photoUrls
+                    ? _c("dog-cards", { key: url, attrs: { "photo-url": url } })
+                    : _vm._e()
                 }),
                 _vm._v(" "),
                 _c("infinite-loading", {
-                  attrs: { spinner: "spiral" },
+                  attrs: { identifier: _vm.infiniteId, spinner: "spiral" },
                   on: { infinite: _vm.loadPhotos }
                 })
               ],
@@ -50922,6 +51195,46 @@ var index_cjs = {
 };
 
 module.exports = index_cjs;
+
+
+/***/ }),
+
+/***/ "./node_modules/vuex/dist/vuex.mjs":
+/*!*****************************************!*\
+  !*** ./node_modules/vuex/dist/vuex.mjs ***!
+  \*****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => /* reexport default export from named module */ _dist_vuex_common_js__WEBPACK_IMPORTED_MODULE_0__,
+/* harmony export */   "Store": () => /* binding */ Store,
+/* harmony export */   "install": () => /* binding */ install,
+/* harmony export */   "version": () => /* binding */ version,
+/* harmony export */   "mapState": () => /* binding */ mapState,
+/* harmony export */   "mapMutations": () => /* binding */ mapMutations,
+/* harmony export */   "mapGetters": () => /* binding */ mapGetters,
+/* harmony export */   "mapActions": () => /* binding */ mapActions,
+/* harmony export */   "createNamespacedHelpers": () => /* binding */ createNamespacedHelpers,
+/* harmony export */   "createLogger": () => /* binding */ createLogger
+/* harmony export */ });
+/* harmony import */ var _dist_vuex_common_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../dist/vuex.common.js */ "./node_modules/vuex/dist/vuex.common.js");
+
+
+const {
+  Store,
+  install,
+  version,
+  mapState,
+  mapMutations,
+  mapGetters,
+  mapActions,
+  createNamespacedHelpers,
+  createLogger
+} = _dist_vuex_common_js__WEBPACK_IMPORTED_MODULE_0__
+
+
 
 
 /***/ }),
