@@ -20,8 +20,8 @@
                 >
                     <dog-cards
                         v-if="photoUrls"
-                        v-for="url in photoUrls"
-                        :key="url"
+                        v-for="(url, i) in photoUrls"
+                        :key="i"
                         :photo-url="url"
                     ></dog-cards>
                     <infinite-loading :identifier="infiniteId" @infinite="loadPhotos" spinner="spiral"></infinite-loading>

@@ -35868,9 +35868,9 @@ var render = function() {
               "div",
               { staticClass: "md:col-span-7 mb-2" },
               [
-                _vm._l(_vm.photoUrls, function(url) {
+                _vm._l(_vm.photoUrls, function(url, i) {
                   return _vm.photoUrls
-                    ? _c("dog-cards", { key: url, attrs: { "photo-url": url } })
+                    ? _c("dog-cards", { key: i, attrs: { "photo-url": url } })
                     : _vm._e()
                 }),
                 _vm._v(" "),
