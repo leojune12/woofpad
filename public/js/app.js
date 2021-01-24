@@ -1953,7 +1953,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "DogCards",
   data: function data() {
@@ -1975,6 +1974,18 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    getBreed: function getBreed() {
+      var fullBreed = this.photoUrl.split('/')[4].toString();
+      var breed = fullBreed.split('-');
+
+      if (breed.length > 1) {
+        breed = breed[1] + ' ' + breed[0];
+      } else {
+        breed = breed[0];
+      }
+
+      return breed;
     }
   }
 });
@@ -30787,7 +30798,15 @@ var render = function() {
     "div",
     { staticClass: "bg-white md:rounded-lg rounded-none shadow mb-4" },
     [
-      _vm._m(0),
+      _c("div", { staticClass: "p-4" }, [
+        _c(
+          "h3",
+          {
+            staticClass: "text-xl font-bold leading-7 text-gray-900 capitalize"
+          },
+          [_vm._v("\n            " + _vm._s(_vm.getBreed()) + "\n        ")]
+        )
+      ]),
       _vm._v(" "),
       _c("div", [
         _c("img", {
@@ -30908,22 +30927,7 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "p-4" }, [
-      _c("h3", { staticClass: "text-xl font-bold leading-7 text-gray-900" }, [
-        _vm._v("\n            New Salary Increase\n        ")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "text-gray-600 text-xs font-bold" }, [
-        _vm._v("Enero 4 nang 6:01 PM")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

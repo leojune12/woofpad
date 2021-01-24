@@ -1,10 +1,9 @@
 <template>
     <div class="bg-white md:rounded-lg rounded-none shadow mb-4">
         <div class="p-4">
-            <h3 class="text-xl font-bold leading-7 text-gray-900">
-                New Salary Increase
+            <h3 class="text-xl font-bold leading-7 text-gray-900 capitalize">
+                {{ getBreed() }}
             </h3>
-            <div class="text-gray-600 text-xs font-bold">Enero 4 nang 6:01 PM</div>
         </div>
         <div>
             <img :src="photoUrl" alt="Post image" class="w-full h-auto" style="min-height: 18rem;">
@@ -68,6 +67,16 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+            },
+            getBreed () {
+                let fullBreed = this.photoUrl.split('/')[4].toString()
+                let breed = fullBreed.split('-')
+                if (breed.length > 1) {
+                    breed = breed[1] + ' ' + breed[0]
+                } else {
+                  breed = breed[0]
+                }
+                return breed
             }
         }
     }
