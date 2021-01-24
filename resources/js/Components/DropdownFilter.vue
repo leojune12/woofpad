@@ -16,7 +16,7 @@
             @click="showMenu = !showMenu"
         >
             <span class="flex items-center">
-                <span class="block truncate capitalize">
+                <span class="block truncate capitalize text-gray-800">
                     {{ currentBreed }}
                 </span>
             </span>
@@ -27,6 +27,11 @@
                 </svg>
             </span>
         </button>
+
+        <!-- Full Screen Dropdown Overlay -->
+        <div v-show="showMenu" class="fixed inset-0 z-40" @click="showMenu = false">
+        </div>
+
         <transition
             enter-active-class=""
             enter-class=""
@@ -35,17 +40,21 @@
             leave-class="opacity-100"
             leave-to-class="opacity-0"
         >
-            <div v-show="showMenu" class="absolute mt-1 w-80 rounded-md bg-white shadow-lg">
+            <div
+                v-show="showMenu"
+                class="absolute z-50 mt-1 w-80 rounded-md bg-white shadow-lg text-gray-800"
+            >
                 <ul tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3" class="max-h-96 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                     <li
                         role="option"
                         class="text-gray-900 cursor-default select-none relative"
                     >
                         <div
-                            class="flex items-center py-1 hover:bg-gray-200 pl-3 cursor-pointer"
+                            class="flex items-center py-1 hover:bg-purple-200 pl-3 cursor-pointer"
+                            :class="{'bg-purple-100':currentBreed === 'Random Breeds'}"
                             @click="changeCurrentUrl(randomBreedUrl, 'Random Breeds')"
                         >
-                            <span class="ml-3 block font-normal truncate capitalize">
+                            <span class="ml-3 block font-normal truncate capitalize text-gray-700">
                                 Random Breeds
                             </span>
                         </div>
@@ -67,10 +76,11 @@
                         :class="[ breed === '__ob__' ? 'hidden' : '' ]"
                     >
                         <div
-                            class="flex items-center py-1 hover:bg-gray-200 pl-3 cursor-pointer"
+                            class="flex items-center py-1 hover:bg-purple-200 pl-3 cursor-pointer"
+                            :class="{'bg-purple-100':currentBreed === breed}"
                             @click="changeCurrentUrl('https://dog.ceo/api/breed/'+breed+'/images/random/10', breed)"
                         >
-                            <span class="ml-3 block font-normal truncate capitalize">
+                            <span class="ml-3 block font-normal truncate capitalize text-gray-700">
                                 {{ breed }}
                             </span>
                         </div>
@@ -81,14 +91,15 @@
                             <ul>
                                 <li
                                     v-for="subBreed in breeds[breed]"
-                                    class="pl-6 py-1 capitalize hover:bg-gray-200 flex cursor-pointer"
+                                    class="pl-6 py-1 capitalize hover:bg-purple-200 flex cursor-pointer"
+                                    :class="{'bg-purple-100':currentBreed === subBreed+' '+breed}"
                                     @click="changeCurrentUrl('https://dog.ceo/api/breed/'+breed+'/'+subBreed+'/images/random/10', subBreed+' '+breed)"
                                 >
                                     <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                                         <path fill="currentColor" d="M12,10A2,2 0 0,0 10,12C10,13.11 10.9,14 12,14C13.11,14 14,13.11 14,12A2,2 0 0,0 12,10Z" />
                                     </svg>
                                     <div>
-                                        <span>
+                                        <span class="text-gray-700">
                                             {{ subBreed+' '+breed }}
                                         </span>
                                     </div>
@@ -133,6 +144,19 @@
                 allBreedsUrl: 'https://dog.ceo/api/breeds/list/all',
                 currentBreed: 'Random Breeds'
             }
+        },
+        created() {
+            const closeOnEscape = (e) => {
+                if (this.open && e.keyCode === 27) {
+                    this.open = false
+                }
+            }
+
+            this.$once('hook:destroyed', () => {
+                document.removeEventListener('keydown', closeOnEscape)
+            })
+
+            document.addEventListener('keydown', closeOnEscape)
         },
         mounted () {
             this.getAllBreeds()

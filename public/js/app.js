@@ -2132,6 +2132,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "DropdownFilter",
@@ -2143,6 +2154,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       allBreedsUrl: 'https://dog.ceo/api/breeds/list/all',
       currentBreed: 'Random Breeds'
     };
+  },
+  created: function created() {
+    var _this = this;
+
+    var closeOnEscape = function closeOnEscape(e) {
+      if (_this.open && e.keyCode === 27) {
+        _this.open = false;
+      }
+    };
+
+    this.$once('hook:destroyed', function () {
+      document.removeEventListener('keydown', closeOnEscape);
+    });
+    document.addEventListener('keydown', closeOnEscape);
   },
   mounted: function mounted() {
     this.getAllBreeds();
@@ -2175,12 +2200,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['incrementInfiniteId', 'setPhotoUrls', 'setPreviousUrl', 'setCurrentUrl'])), {}, {
     getAllBreeds: function getAllBreeds() {
-      var _this = this;
+      var _this2 = this;
 
       fetch(this.allBreedsUrl).then(function (response) {
         return response.json();
       }).then(function (response) {
-        return _this.breeds = response.message;
+        return _this2.breeds = response.message;
       })["catch"](function (error) {
         return console.log(error);
       });
@@ -31055,13 +31080,17 @@ var render = function() {
         },
         [
           _c("span", { staticClass: "flex items-center" }, [
-            _c("span", { staticClass: "block truncate capitalize" }, [
-              _vm._v(
-                "\n                " +
-                  _vm._s(_vm.currentBreed) +
-                  "\n            "
-              )
-            ])
+            _c(
+              "span",
+              { staticClass: "block truncate capitalize text-gray-800" },
+              [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(_vm.currentBreed) +
+                    "\n            "
+                )
+              ]
+            )
           ]),
           _vm._v(" "),
           _c(
@@ -31098,6 +31127,23 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
+      _c("div", {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.showMenu,
+            expression: "showMenu"
+          }
+        ],
+        staticClass: "fixed inset-0 z-40",
+        on: {
+          click: function($event) {
+            _vm.showMenu = false
+          }
+        }
+      }),
+      _vm._v(" "),
       _c(
         "transition",
         {
@@ -31122,7 +31168,8 @@ var render = function() {
                   expression: "showMenu"
                 }
               ],
-              staticClass: "absolute mt-1 w-80 rounded-md bg-white shadow-lg"
+              staticClass:
+                "absolute z-50 mt-1 w-80 rounded-md bg-white shadow-lg text-gray-800"
             },
             [
               _c(
@@ -31150,7 +31197,11 @@ var render = function() {
                         "div",
                         {
                           staticClass:
-                            "flex items-center py-1 hover:bg-gray-200 pl-3 cursor-pointer",
+                            "flex items-center py-1 hover:bg-purple-200 pl-3 cursor-pointer",
+                          class: {
+                            "bg-purple-100":
+                              _vm.currentBreed === "Random Breeds"
+                          },
                           on: {
                             click: function($event) {
                               return _vm.changeCurrentUrl(
@@ -31165,7 +31216,7 @@ var render = function() {
                             "span",
                             {
                               staticClass:
-                                "ml-3 block font-normal truncate capitalize"
+                                "ml-3 block font-normal truncate capitalize text-gray-700"
                             },
                             [
                               _vm._v(
@@ -31230,7 +31281,10 @@ var render = function() {
                           "div",
                           {
                             staticClass:
-                              "flex items-center py-1 hover:bg-gray-200 pl-3 cursor-pointer",
+                              "flex items-center py-1 hover:bg-purple-200 pl-3 cursor-pointer",
+                            class: {
+                              "bg-purple-100": _vm.currentBreed === breed
+                            },
                             on: {
                               click: function($event) {
                                 return _vm.changeCurrentUrl(
@@ -31247,7 +31301,7 @@ var render = function() {
                               "span",
                               {
                                 staticClass:
-                                  "ml-3 block font-normal truncate capitalize"
+                                  "ml-3 block font-normal truncate capitalize text-gray-700"
                               },
                               [
                                 _vm._v(
@@ -31287,7 +31341,12 @@ var render = function() {
                                     "li",
                                     {
                                       staticClass:
-                                        "pl-6 py-1 capitalize hover:bg-gray-200 flex cursor-pointer",
+                                        "pl-6 py-1 capitalize hover:bg-purple-200 flex cursor-pointer",
+                                      class: {
+                                        "bg-purple-100":
+                                          _vm.currentBreed ===
+                                          subBreed + " " + breed
+                                      },
                                       on: {
                                         click: function($event) {
                                           return _vm.changeCurrentUrl(
@@ -31323,13 +31382,17 @@ var render = function() {
                                       ),
                                       _vm._v(" "),
                                       _c("div", [
-                                        _c("span", [
-                                          _vm._v(
-                                            "\n                                        " +
-                                              _vm._s(subBreed + " " + breed) +
-                                              "\n                                    "
-                                          )
-                                        ])
+                                        _c(
+                                          "span",
+                                          { staticClass: "text-gray-700" },
+                                          [
+                                            _vm._v(
+                                              "\n                                        " +
+                                                _vm._s(subBreed + " " + breed) +
+                                                "\n                                    "
+                                            )
+                                          ]
+                                        )
                                       ]),
                                       _vm._v(" "),
                                       _vm.currentBreed ===
