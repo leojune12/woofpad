@@ -1,7 +1,9 @@
 <template>
     <jet-authentication-card>
         <template #logo>
-            <jet-authentication-card-logo />
+            <inertia-link :href="route('home')">
+                <jet-authentication-card-logo />
+            </inertia-link>
         </template>
 
         <jet-validation-errors class="mb-4" />
@@ -29,11 +31,11 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <inertia-link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
+                <!--<inertia-link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
                     Forgot your password?
-                </inertia-link>
+                </inertia-link>-->
 
-                <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <jet-button class="w-full bg-app-color" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Login
                 </jet-button>
             </div>
@@ -90,3 +92,9 @@
         }
     }
 </script>
+
+<style>
+    .btn-bg-app-color {
+        background-color: red !important;
+    }
+</style>

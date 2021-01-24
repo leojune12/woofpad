@@ -1,7 +1,9 @@
 <template>
     <jet-authentication-card>
         <template #logo>
-            <jet-authentication-card-logo />
+            <inertia-link :href="route('home')">
+                <jet-authentication-card-logo />
+            </inertia-link>
         </template>
 
         <jet-validation-errors class="mb-4" />
@@ -39,14 +41,14 @@
                 </jet-label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
-                <inertia-link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                    Already registered?
-                </inertia-link>
-
-                <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+            <div class="mt-4">
+                <jet-button class="w-full bg-app-color mb-2" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Register
                 </jet-button>
+
+                <inertia-link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900 float-right">
+                    Already registered?
+                </inertia-link>
             </div>
         </form>
     </jet-authentication-card>

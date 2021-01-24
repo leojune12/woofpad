@@ -4,13 +4,13 @@
 
 @layer base {
     .text-app-color {
-        color: #6B357F;
+        color: #7b3694 !important;
     }
     .bg-app-color {
-        background-color: #6B357F;
+        background-color: #7b3694 !important;
     }
 
     .bg-app-color:hover {
-        background-color: #7b3694;
+        background-color: #6B357F !important;
     }
 }
