@@ -49,6 +49,16 @@
                                     </template>
 
                                     <template #content>
+
+                                        <div class="flex px-4 py-2 items-center">
+                                            <img :src="$page.props.user.profile_photo_url" alt="Profile photo" class="rounded-full mr-3 h-12">
+
+                                            <div class="overflow-ellipsis overflow-hidden">
+                                                <p class="font-medium text-gray-800 text-sm truncate">{{ $page.props.user.name }}</p>
+                                                <p class="font-medium text-xs text-gray-500 truncate">{{ $page.props.user.email }}</p>
+                                            </div>
+                                        </div>
+
                                         <!-- Account Management -->
                                         <div class="block px-4 py-2 text-xs text-gray-400">
                                             Manage Account
@@ -118,9 +128,11 @@
                                 <img class="h-10 w-10 rounded-full object-cover" :src="$page.props.user.profile_photo_path ? '/storage/' + $page.props.user.profile_photo_path : '/storage/profile-photos/anonymous.png'" :alt="$page.props.user.name" />
                             </div>
 
-                            <div class="h-11 w-11 bg-app-color flex items-center justify-center mr-2 rounded-full">
+                            <!--<div class="h-11 w-11 bg-app-color flex items-center justify-center mr-2 rounded-full">
                                 <p class="font-bold text-white text-3xl uppercase ">{{ firstLetterOfName($page.props.user.name) }}</p>
-                            </div>
+                            </div>-->
+
+                            <img :src="$page.props.user.profile_photo_url" alt="Profile photo" class="rounded-full mr-3">
 
                             <div>
                                 <div class="font-medium text-base text-gray-800">{{ $page.props.user.name }}</div>

@@ -3538,6 +3538,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -33596,6 +33608,67 @@ var render = function() {
                                                 "div",
                                                 {
                                                   staticClass:
+                                                    "flex px-4 py-2 items-center"
+                                                },
+                                                [
+                                                  _c("img", {
+                                                    staticClass:
+                                                      "rounded-full mr-3 h-12",
+                                                    attrs: {
+                                                      src:
+                                                        _vm.$page.props.user
+                                                          .profile_photo_url,
+                                                      alt: "Profile photo"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "div",
+                                                    {
+                                                      staticClass:
+                                                        "overflow-ellipsis overflow-hidden"
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "p",
+                                                        {
+                                                          staticClass:
+                                                            "font-medium text-gray-800 text-sm truncate"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              _vm.$page.props
+                                                                .user.name
+                                                            )
+                                                          )
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "p",
+                                                        {
+                                                          staticClass:
+                                                            "font-medium text-xs text-gray-500 truncate"
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            _vm._s(
+                                                              _vm.$page.props
+                                                                .user.email
+                                                            )
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass:
                                                     "block px-4 py-2 text-xs text-gray-400"
                                                 },
                                                 [
@@ -33675,7 +33748,7 @@ var render = function() {
                                       ],
                                       null,
                                       false,
-                                      2799669053
+                                      445193729
                                     )
                                   })
                                 ],
@@ -33860,31 +33933,13 @@ var render = function() {
                                 )
                               : _vm._e(),
                             _vm._v(" "),
-                            _c(
-                              "div",
-                              {
-                                staticClass:
-                                  "h-11 w-11 bg-app-color flex items-center justify-center mr-2 rounded-full"
-                              },
-                              [
-                                _c(
-                                  "p",
-                                  {
-                                    staticClass:
-                                      "font-bold text-white text-3xl uppercase "
-                                  },
-                                  [
-                                    _vm._v(
-                                      _vm._s(
-                                        _vm.firstLetterOfName(
-                                          _vm.$page.props.user.name
-                                        )
-                                      )
-                                    )
-                                  ]
-                                )
-                              ]
-                            ),
+                            _c("img", {
+                              staticClass: "rounded-full mr-3",
+                              attrs: {
+                                src: _vm.$page.props.user.profile_photo_url,
+                                alt: "Profile photo"
+                              }
+                            }),
                             _vm._v(" "),
                             _c("div", [
                               _c(
