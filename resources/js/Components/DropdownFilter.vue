@@ -44,7 +44,7 @@
                 v-show="showMenu"
                 class="absolute z-50 mt-1 w-80 rounded-md bg-white shadow-lg text-gray-800"
             >
-                <ul tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3" class="max-h-96 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+                <ul tabindex="-1" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-item-3" class="max-h-80 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
                     <li
                         role="option"
                         class="text-gray-900 cursor-default select-none relative"
@@ -183,9 +183,15 @@
                 this.showMenu = false
                 this.currentBreed = displayBreed
 
-                this.$store.dispatch('resetPhotoUrls').then(() => {
-                    this.$inertia.get('/'+breed)
-                })
+                this.$store.dispatch('resetPhotoUrls')
+                    .then(() => {
+                        setTimeout(() => {
+                            //empty
+                        }, 500)
+                    })
+                    .then(() => {
+                        this.$inertia.get('/'+breed)
+                    })
             },
         }
     }

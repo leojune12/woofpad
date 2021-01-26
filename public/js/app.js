@@ -2203,6 +2203,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.showMenu = false;
       this.currentBreed = displayBreed;
       this.$store.dispatch('resetPhotoUrls').then(function () {
+        setTimeout(function () {//empty
+        }, 500);
+      }).then(function () {
         _this3.$inertia.get('/' + breed);
       });
     }
@@ -31279,7 +31282,7 @@ var render = function() {
                 "ul",
                 {
                   staticClass:
-                    "max-h-96 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm",
+                    "max-h-80 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm",
                   attrs: {
                     tabindex: "-1",
                     role: "listbox",
@@ -31612,7 +31615,7 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("span", { staticClass: "text-gray-800" }, [
-        _vm._v("\n    to select from a wide variety of breeds below.\n")
+        _vm._v("\n    to filter from a wide variety of breeds below.\n")
       ])
     ],
     1

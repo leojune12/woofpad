@@ -8,7 +8,7 @@
             <span>sign in</span>
         </inertia-link>
         <span class="text-gray-800">
-        to select from a wide variety of breeds below.
+        to filter from a wide variety of breeds below.
     </span>
     </div>
 </template>
