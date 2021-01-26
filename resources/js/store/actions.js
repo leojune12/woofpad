@@ -4,10 +4,8 @@ let actions = {
     },
     resetPhotoUrls ({commit}) {
         return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                commit('resetPhotoUrlsMutation')
-                resolve()
-            }, 300)
+            commit('resetPhotoUrlsMutation')
+            resolve()
         })
     },
     setCurrentBreed ({commit}, payload) {

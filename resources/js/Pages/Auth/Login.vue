@@ -95,9 +95,3 @@
         }
     }
 </script>
-
-<style>
-    .btn-bg-app-color {
-        background-color: red !important;
-    }
-</style>

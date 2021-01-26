@@ -1,7 +1,12 @@
 <template>
     <app-layout>
         <template #dropdown-filter>
-            <dropdown-filter></dropdown-filter>
+            <div class="mb-3" v-if="!$page.props.user">
+                <welcome-message></welcome-message>
+            </div>
+            <div>
+                <dropdown-filter></dropdown-filter>
+            </div>
         </template>
         <div class="flex justify-center w-full">
             <div
@@ -12,7 +17,12 @@
                     class="md:col-span-5 mb-2 md:mb-0 hidden md:block"
                 >
                     <div class="bg-white md:rounded-lg rounded-none shadow p-4 sticky top-24">
-                        <dropdown-filter></dropdown-filter>
+                        <div class="mb-3" v-if="!$page.props.user">
+                            <welcome-message></welcome-message>
+                        </div>
+                        <div class="">
+                            <dropdown-filter></dropdown-filter>
+                        </div>
                     </div>
                 </div>
                 <div
@@ -38,6 +48,7 @@
     import DogCards from "../Components/DogCards";
     import InfiniteLoading from 'vue-infinite-loading';
     import DropdownFilter from "@/Components/DropdownFilter";
+    import WelcomeMessage from "@/Components/WelcomeMessage";
     import { mapActions } from 'vuex'
 
     export default {
@@ -47,7 +58,8 @@
             AboutMe,
             DogCards,
             InfiniteLoading,
-            DropdownFilter
+            DropdownFilter,
+            WelcomeMessage
         },
         props: {
             breed: {
