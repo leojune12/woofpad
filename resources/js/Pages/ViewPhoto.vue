@@ -21,26 +21,47 @@
         name: "ViewPhoto",
         props: {
             breed: String,
-            subBreed: {
-                String,
-                default: null
-            },
             photo: String
         },
+        metaInfo() {
+            return {
+                title: 'Photo | Woofpad',
+                meta: [
+                    {
+                        vmid: 'og:title',
+                        name: 'og:title',
+                        content: 'Photo | Woofpad',
+                    },
+                    {
+                        vmid: 'og:description',
+                        name: 'og:description',
+                        content: this.getCapitalizedBreed(),
+                    },
+                    {
+                        vmid: 'og:image',
+                        name: 'og:image',
+                        content: this.photoUrl(),
+                    },
+                    {
+                        vmid: 'og:url',
+                        name: 'og:url',
+                        content: 'https://woofpad.herokuapp.com'+this.$page.url,
+                    },
+                ]
+            }
+        },
         computed: {
-            apiUrl () { return this.$store.state.apiUrl }
+            apiUrl () { return this.$store.state.apiUrl },
         },
         methods: {
             photoUrl () {
-                let url = this.apiUrl + this.breed + '/'
-
-                if (this.subBreed) {
-                    url += this.subBreed + '/'
-                }
-
-                url += this.photo
+                let url = this.apiUrl + this.breed + '/' +this.photo
 
                 return url
+            },
+
+            getCapitalizedBreed () {
+                return this.breed.charAt(0).toUpperCase() + this.breed.slice(1);
             },
 
             goBack () {

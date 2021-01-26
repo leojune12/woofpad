@@ -61,6 +61,33 @@
             DropdownFilter,
             WelcomeMessage
         },
+        metaInfo() {
+            return {
+                title: 'Woofpad',
+                meta: [
+                    {
+                        vmid: 'og:title',
+                        name: 'og:title',
+                        content: 'Woofpad',
+                    },
+                    {
+                        vmid: 'og:description',
+                        name: 'og:description',
+                        content: 'Woofpad offers random photos of man\'s bestfriend, dogs.',
+                    },
+                    {
+                        vmid: 'og:image',
+                        name: 'og:image',
+                        content: 'https://images.dog.ceo/breeds/cockapoo/bubbles1.jpg',
+                    },
+                    {
+                        vmid: 'og:url',
+                        name: 'og:url',
+                        content: 'https://woofpad.herokuapp.com',
+                    },
+                ]
+            }
+        },
         props: {
             breed: {
                 type: String,

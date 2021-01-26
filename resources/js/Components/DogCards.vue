@@ -95,7 +95,7 @@
             },
             viewPhotoUrl () {
                 let photo = this.photoUrl.split('/')
-                
+
                 return '/photos/'+photo[4]+'/'+photo[5]
             }
         }
