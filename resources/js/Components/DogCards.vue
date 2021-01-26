@@ -1,14 +1,26 @@
 <template>
-    <div class="bg-white md:rounded-lg rounded-none shadow mb-4">
+    <div
+        class="bg-white shadow mb-4"
+    >
         <div class="p-4">
             <h3 class="text-xl font-bold leading-7 text-gray-900 capitalize">
                 {{ getBreed() }}
             </h3>
         </div>
-        <div>
-            <img :src="photoUrl" alt="Post image" class="w-full h-auto" style="min-height: 18rem;">
-        </div>
-        <div class="px-4 py-1 flex">
+        <inertia-link
+            :href="viewPhotoUrl()"
+        >
+            <div
+                class="bg-gray-800"
+            >
+                <img
+                    :src="photoUrl"
+                    alt="dog image"
+                    class="w-full h-80 object-contain"
+                >
+            </div>
+        </inertia-link>
+        <!--<div class="px-4 py-1 flex">
             <button
                 class="h-10 px-5 text-gray-500 rounded-lg focus:outline-none flex-grow text-center hover:bg-gray-200 active:bg-gray-300"
                 @click="likePhoto"
@@ -39,7 +51,7 @@
                     </div>
                 </div>
             </button>
-        </div>
+        </div>-->
     </div>
 </template>
 
@@ -54,6 +66,9 @@
         props: [
             'photoUrl'
         ],
+        computed: {
+            apiUrl () { return this.$store.state.apiUrl }
+        },
         methods: {
             likePhoto () {
                 axios.post('/like', {
@@ -77,6 +92,11 @@
                   breed = breed[0]
                 }
                 return breed
+            },
+            viewPhotoUrl () {
+                let photo = this.photoUrl.split('/')
+                
+                return '/photos/'+photo[4]+'/'+photo[5]
             }
         }
     }

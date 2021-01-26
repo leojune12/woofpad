@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BreedController;
 use App\Http\Controllers\LikeController;
+use App\Http\Controllers\PhotoCOntroller;
 use App\Models\Like;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +21,8 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Home');
 })->name('home');
+
+Route::get('/photos/{breed}/{photo}', [PhotoCOntroller::class, 'show']);
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return Inertia::render('Dashboard');
