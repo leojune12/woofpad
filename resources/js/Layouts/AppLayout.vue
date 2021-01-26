@@ -10,10 +10,14 @@
                         <div>
                             <!-- Logo -->
                             <div class="flex-shrink-0 flex items-center">
-                                <inertia-link :href="route('home')" class="flex items-center">
+                                <button
+                                    type="button"
+                                    class="flex items-center focus:outline-none"
+                                    @click="gotoHome"
+                                >
                                     <jet-application-mark class="block h-9 w-auto" />
                                     <p class="ml-2 text-2xl font-black font-sans text-app-color">Woofpad</p>
-                                </inertia-link>
+                                </button>
                             </div>
 
                             <!-- Navigation Links -->
@@ -220,9 +224,12 @@
     import JetDropdownLink from '@/Jetstream/DropdownLink'
     import JetNavLink from '@/Jetstream/NavLink'
     import JetResponsiveNavLink from '@/Jetstream/ResponsiveNavLink'
+    import Button from "@/Jetstream/Button";
+    import { mapActions } from 'vuex'
 
     export default {
         components: {
+            Button,
             JetApplicationMark,
             JetBanner,
             JetDropdown,
@@ -236,7 +243,17 @@
                 showingNavigationDropdown: false,
             }
         },
+        computed: {
+            currentBreed: {
+                get () { return this.$store.state.currentBreed },
+                set (breed) { this.setCurrentBreed(breed) }
+            }
+        },
         methods: {
+            ...mapActions([
+                'resetPhotoUrls',
+                'setCurrentBreed'
+            ]),
             switchToTeam(team) {
                 this.$inertia.put(route('current-team.update'), {
                     'team_id': team.id
@@ -251,7 +268,15 @@
 
             firstLetterOfName (name) {
                 return name.slice(0, 1)
-            }
+            },
+
+            gotoHome () {
+                this.currentBreed = 'Random Breeds'
+
+                this.$store.dispatch('resetPhotoUrls').then(() => {
+                    this.$inertia.get('/')
+                })
+            },
         }
     }
 </script>

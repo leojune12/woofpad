@@ -2141,18 +2141,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "DropdownFilter",
   data: function data() {
     return {
       showMenu: false,
-      breeds: {},
-      randomBreedUrl: 'https://dog.ceo/api/breeds/image/random/10',
-      allBreedsUrl: 'https://dog.ceo/api/breeds/list/all',
-      currentBreed: 'Random Breeds'
+      breeds: {}
     };
   },
   created: function created() {
@@ -2173,22 +2168,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getAllBreeds();
   },
   computed: {
-    currentUrl: {
-      get: function get() {
-        return this.$store.state.currentUrl;
-      },
-      set: function set(url) {
-        this.setCurrentUrl(url);
-      }
-    },
-    previousUrl: {
-      get: function get() {
-        return this.$store.state.previousUrl;
-      },
-      set: function set(url) {
-        this.setPreviousUrl(url);
-      }
-    },
     photoUrls: {
       get: function get() {
         return this.$store.state.photoUrls;
@@ -2196,13 +2175,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       set: function set(payload) {
         this.setPhotoUrls(payload);
       }
+    },
+    currentBreed: {
+      get: function get() {
+        return this.$store.state.currentBreed;
+      },
+      set: function set(breed) {
+        this.setCurrentBreed(breed);
+      }
     }
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['incrementInfiniteId', 'setPhotoUrls', 'setPreviousUrl', 'setCurrentUrl'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['setPhotoUrls', 'resetPhotoUrls', 'setCurrentBreed'])), {}, {
     getAllBreeds: function getAllBreeds() {
       var _this2 = this;
 
-      fetch(this.allBreedsUrl).then(function (response) {
+      fetch('https://dog.ceo/api/breeds/list/all').then(function (response) {
         return response.json();
       }).then(function (response) {
         return _this2.breeds = response.message;
@@ -2210,16 +2197,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return console.log(error);
       });
     },
-    changeCurrentUrl: function changeCurrentUrl(newUrl, breed) {
-      if (this.previousUrl !== newUrl) {
-        this.previousUrl = newUrl;
-        this.photoUrls = [];
-      }
+    changeBreed: function changeBreed(breed, displayBreed) {
+      var _this3 = this;
 
-      this.currentUrl = newUrl;
-      this.currentBreed = breed;
       this.showMenu = false;
-      this.incrementInfiniteId(1);
+      this.currentBreed = displayBreed;
+      this.$store.dispatch('resetPhotoUrls').then(function () {
+        _this3.$inertia.get('/' + breed);
+      });
     }
   })
 });
@@ -3326,6 +3311,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Jetstream_DropdownLink__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Jetstream/DropdownLink */ "./resources/js/Jetstream/DropdownLink.vue");
 /* harmony import */ var _Jetstream_NavLink__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Jetstream/NavLink */ "./resources/js/Jetstream/NavLink.vue");
 /* harmony import */ var _Jetstream_ResponsiveNavLink__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/Jetstream/ResponsiveNavLink */ "./resources/js/Jetstream/ResponsiveNavLink.vue");
+/* harmony import */ var _Jetstream_Button__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @/Jetstream/Button */ "./resources/js/Jetstream/Button.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.mjs");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -3541,6 +3534,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
+
 
 
 
@@ -3549,6 +3548,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
+    Button: _Jetstream_Button__WEBPACK_IMPORTED_MODULE_6__.default,
     JetApplicationMark: _Jetstream_ApplicationMark__WEBPACK_IMPORTED_MODULE_0__.default,
     JetBanner: _Jetstream_Banner__WEBPACK_IMPORTED_MODULE_1__.default,
     JetDropdown: _Jetstream_Dropdown__WEBPACK_IMPORTED_MODULE_2__.default,
@@ -3561,7 +3561,17 @@ __webpack_require__.r(__webpack_exports__);
       showingNavigationDropdown: false
     };
   },
-  methods: {
+  computed: {
+    currentBreed: {
+      get: function get() {
+        return this.$store.state.currentBreed;
+      },
+      set: function set(breed) {
+        this.setCurrentBreed(breed);
+      }
+    }
+  },
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_7__.mapActions)(['resetPhotoUrls', 'setCurrentBreed'])), {}, {
     switchToTeam: function switchToTeam(team) {
       this.$inertia.put(route('current-team.update'), {
         'team_id': team.id
@@ -3574,8 +3584,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     firstLetterOfName: function firstLetterOfName(name) {
       return name.slice(0, 1);
+    },
+    gotoHome: function gotoHome() {
+      var _this = this;
+
+      this.currentBreed = 'Random Breeds';
+      this.$store.dispatch('resetPhotoUrls').then(function () {
+        _this.$inertia.get('/');
+      });
     }
-  }
+  })
 });
 
 /***/ }),
@@ -4091,6 +4109,9 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
 //
 //
 //
@@ -4692,6 +4713,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -4707,6 +4729,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     InfiniteLoading: (vue_infinite_loading__WEBPACK_IMPORTED_MODULE_3___default()),
     DropdownFilter: _Components_DropdownFilter__WEBPACK_IMPORTED_MODULE_4__.default
   },
+  props: {
+    breed: {
+      type: String,
+      "default": null
+    }
+  },
   computed: {
     photoUrls: {
       get: function get() {
@@ -4719,18 +4747,36 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     randomBreedUrl: function randomBreedUrl() {
       return this.$store.state.randomBreedUrl;
     },
-    currentUrl: function currentUrl() {
-      return this.$store.state.currentUrl;
-    },
-    infiniteId: function infiniteId() {
-      return this.$store.state.infiniteId;
+    currentBreed: {
+      get: function get() {
+        return this.$store.state.currentBreed;
+      },
+      set: function set(breed) {
+        this.setCurrentBreed(breed);
+      }
     }
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)(['loadCustomBreedPhotos'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_5__.mapActions)(['setCurrentBreed'])), {}, {
     loadPhotos: function loadPhotos($state) {
       var _this = this;
 
-      fetch(this.currentUrl).then(function (response) {
+      var breedUrl = '';
+
+      if (this.breed !== null) {
+        var breedArray = this.breed.split('-');
+
+        if (breedArray.length > 1) {
+          breedUrl = 'https://dog.ceo/api/breed/' + breedArray[1] + '/' + breedArray[0] + '/images/random/10';
+          this.currentBreed = breedArray[0] + ' ' + breedArray[1];
+        } else {
+          breedUrl = 'https://dog.ceo/api/breed/' + this.breed + '/images/random/10';
+          this.currentBreed = this.breed;
+        }
+      } else {
+        breedUrl = this.randomBreedUrl;
+      }
+
+      fetch(breedUrl).then(function (response) {
         return response.json();
       }).then(function (response) {
         var _this$photoUrls;
@@ -5943,17 +5989,18 @@ var actions = {
     var commit = _ref.commit;
     commit('setPhotoUrlsMutation', payload);
   },
-  incrementInfiniteId: function incrementInfiniteId(_ref2, payload) {
+  resetPhotoUrls: function resetPhotoUrls(_ref2) {
     var commit = _ref2.commit;
-    commit('incrementInfiniteIdMutation', payload);
+    return new Promise(function (resolve, reject) {
+      setTimeout(function () {
+        commit('resetPhotoUrlsMutation');
+        resolve();
+      }, 300);
+    });
   },
-  setPreviousUrl: function setPreviousUrl(_ref3, payload) {
+  setCurrentBreed: function setCurrentBreed(_ref3, payload) {
     var commit = _ref3.commit;
-    commit('setPreviousUrlMutation', payload);
-  },
-  setCurrentUrl: function setCurrentUrl(_ref4, payload) {
-    var commit = _ref4.commit;
-    commit('setCurrentUrlMutation', payload);
+    commit('setCurrentBreedMutation', payload);
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (actions);
@@ -6026,14 +6073,14 @@ var mutations = {
   setPhotoUrlsMutation: function setPhotoUrlsMutation(state, payload) {
     state.photoUrls = payload;
   },
-  incrementInfiniteIdMutation: function incrementInfiniteIdMutation(state, payload) {
-    state.infiniteId += payload;
+  resetPhotoUrlsMutation: function resetPhotoUrlsMutation(state) {
+    state.photoUrls = [];
   },
-  setPreviousUrlMutation: function setPreviousUrlMutation(state, payload) {
-    state.previousUrl = payload;
+  setCurrentBreedMutation: function setCurrentBreedMutation(state, payload) {
+    state.currentBreed = payload;
   },
-  setCurrentUrlMutation: function setCurrentUrlMutation(state, payload) {
-    state.currentUrl = payload;
+  setIsNewBreedMutation: function setIsNewBreedMutation(state, payload) {
+    state.previousBreed = payload;
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (mutations);
@@ -6054,9 +6101,7 @@ __webpack_require__.r(__webpack_exports__);
 var state = {
   randomBreedUrl: 'https://dog.ceo/api/breeds/image/random/10',
   photoUrls: [],
-  currentUrl: 'https://dog.ceo/api/breeds/image/random/10',
-  previousUrl: 'https://dog.ceo/api/breeds/image/random/10',
-  infiniteId: 0
+  currentBreed: 'Random Breeds'
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (state);
 
@@ -31204,10 +31249,7 @@ var render = function() {
                           },
                           on: {
                             click: function($event) {
-                              return _vm.changeCurrentUrl(
-                                _vm.randomBreedUrl,
-                                "Random Breeds"
-                              )
+                              return _vm.changeBreed("", "Random Breeds")
                             }
                           }
                         },
@@ -31287,12 +31329,7 @@ var render = function() {
                             },
                             on: {
                               click: function($event) {
-                                return _vm.changeCurrentUrl(
-                                  "https://dog.ceo/api/breed/" +
-                                    breed +
-                                    "/images/random/10",
-                                  breed
-                                )
+                                return _vm.changeBreed("breed/" + breed, breed)
                               }
                             }
                           },
@@ -31310,7 +31347,38 @@ var render = function() {
                                     "\n                        "
                                 )
                               ]
-                            )
+                            ),
+                            _vm._v(" "),
+                            _vm.currentBreed === breed
+                              ? _c(
+                                  "span",
+                                  { staticClass: "ml-auto items-center pr-4" },
+                                  [
+                                    _c(
+                                      "svg",
+                                      {
+                                        staticClass: "h-5 w-5",
+                                        attrs: {
+                                          xmlns: "http://www.w3.org/2000/svg",
+                                          viewBox: "0 0 20 20",
+                                          fill: "currentColor",
+                                          "aria-hidden": "true"
+                                        }
+                                      },
+                                      [
+                                        _c("path", {
+                                          attrs: {
+                                            "fill-rule": "evenodd",
+                                            d:
+                                              "M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z",
+                                            "clip-rule": "evenodd"
+                                          }
+                                        })
+                                      ]
+                                    )
+                                  ]
+                                )
+                              : _vm._e()
                           ]
                         ),
                         _vm._v(" "),
@@ -31341,7 +31409,7 @@ var render = function() {
                                     "li",
                                     {
                                       staticClass:
-                                        "pl-6 py-1 capitalize hover:bg-purple-200 flex cursor-pointer",
+                                        "pl-6 py-1 capitalize hover:bg-purple-200 flex cursor-pointer items-center",
                                       class: {
                                         "bg-purple-100":
                                           _vm.currentBreed ===
@@ -31349,12 +31417,8 @@ var render = function() {
                                       },
                                       on: {
                                         click: function($event) {
-                                          return _vm.changeCurrentUrl(
-                                            "https://dog.ceo/api/breed/" +
-                                              breed +
-                                              "/" +
-                                              subBreed +
-                                              "/images/random/10",
+                                          return _vm.changeBreed(
+                                            "breed/" + subBreed + "-" + breed,
                                             subBreed + " " + breed
                                           )
                                         }
@@ -31381,19 +31445,17 @@ var render = function() {
                                         ]
                                       ),
                                       _vm._v(" "),
-                                      _c("div", [
-                                        _c(
-                                          "span",
-                                          { staticClass: "text-gray-700" },
-                                          [
-                                            _vm._v(
-                                              "\n                                        " +
-                                                _vm._s(subBreed + " " + breed) +
-                                                "\n                                    "
-                                            )
-                                          ]
-                                        )
-                                      ]),
+                                      _c(
+                                        "span",
+                                        { staticClass: "text-gray-700" },
+                                        [
+                                          _vm._v(
+                                            "\n                                    " +
+                                              _vm._s(subBreed + " " + breed) +
+                                              "\n                                "
+                                          )
+                                        ]
+                                      ),
                                       _vm._v(" "),
                                       _vm.currentBreed ===
                                       subBreed + " " + breed
@@ -31436,40 +31498,6 @@ var render = function() {
                                 0
                               )
                             ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        _vm.currentBreed === breed
-                          ? _c(
-                              "span",
-                              {
-                                staticClass:
-                                  "absolute inset-y-0 right-0 flex items-center pr-4"
-                              },
-                              [
-                                _c(
-                                  "svg",
-                                  {
-                                    staticClass: "h-5 w-5",
-                                    attrs: {
-                                      xmlns: "http://www.w3.org/2000/svg",
-                                      viewBox: "0 0 20 20",
-                                      fill: "currentColor",
-                                      "aria-hidden": "true"
-                                    }
-                                  },
-                                  [
-                                    _c("path", {
-                                      attrs: {
-                                        "fill-rule": "evenodd",
-                                        d:
-                                          "M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z",
-                                        "clip-rule": "evenodd"
-                                      }
-                                    })
-                                  ]
-                                )
-                              ]
-                            )
                           : _vm._e()
                       ]
                     )
@@ -33426,10 +33454,12 @@ var render = function() {
                           { staticClass: "flex-shrink-0 flex items-center" },
                           [
                             _c(
-                              "inertia-link",
+                              "button",
                               {
-                                staticClass: "flex items-center",
-                                attrs: { href: _vm.route("home") }
+                                staticClass:
+                                  "flex items-center focus:outline-none",
+                                attrs: { type: "button" },
+                                on: { click: _vm.gotoHome }
                               },
                               [
                                 _c("jet-application-mark", {
@@ -33447,8 +33477,7 @@ var render = function() {
                               ],
                               1
                             )
-                          ],
-                          1
+                          ]
                         )
                       ]),
                       _vm._v(" "),
@@ -35143,16 +35172,26 @@ var render = function() {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "flex items-center justify-end mt-4" },
+            { staticClass: "mt-4" },
             [
               _c(
                 "jet-button",
                 {
-                  staticClass: "w-full bg-app-color",
+                  staticClass: "w-full bg-app-color mb-2",
                   class: { "opacity-25": _vm.form.processing },
                   attrs: { disabled: _vm.form.processing }
                 },
                 [_vm._v("\n                Login\n            ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "inertia-link",
+                {
+                  staticClass:
+                    "underline text-sm text-gray-600 hover:text-gray-900 float-right",
+                  attrs: { href: _vm.route("register") }
+                },
+                [_vm._v("\n                No account yet?\n            ")]
               )
             ],
             1
@@ -35987,7 +36026,7 @@ var render = function() {
                 }),
                 _vm._v(" "),
                 _c("infinite-loading", {
-                  attrs: { identifier: _vm.infiniteId, spinner: "spiral" },
+                  attrs: { spinner: "spiral" },
                   on: { infinite: _vm.loadPhotos }
                 })
               ],

@@ -30,14 +30,17 @@
                 </label>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="mt-4">
                 <!--<inertia-link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-gray-600 hover:text-gray-900">
                     Forgot your password?
                 </inertia-link>-->
 
-                <jet-button class="w-full bg-app-color" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                <jet-button class="w-full bg-app-color mb-2" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Login
                 </jet-button>
+                <inertia-link :href="route('register')" class="underline text-sm text-gray-600 hover:text-gray-900 float-right">
+                    No account yet?
+                </inertia-link>
             </div>
         </form>
     </jet-authentication-card>

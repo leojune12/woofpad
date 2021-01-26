@@ -2,15 +2,17 @@ let actions = {
     setPhotoUrls ({commit}, payload) {
         commit('setPhotoUrlsMutation', payload)
     },
-    incrementInfiniteId ({commit}, payload) {
-        commit('incrementInfiniteIdMutation', payload)
+    resetPhotoUrls ({commit}) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                commit('resetPhotoUrlsMutation')
+                resolve()
+            }, 300)
+        })
     },
-    setPreviousUrl ({commit}, payload) {
-        commit('setPreviousUrlMutation', payload)
+    setCurrentBreed ({commit}, payload) {
+        commit('setCurrentBreedMutation', payload)
     },
-    setCurrentUrl ({commit}, payload) {
-        commit('setCurrentUrlMutation', payload)
-    }
 }
 
 export default actions

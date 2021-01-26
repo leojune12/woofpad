@@ -24,7 +24,8 @@
                         :key="i"
                         :photo-url="url"
                     ></dog-cards>
-                    <infinite-loading :identifier="infiniteId" @infinite="loadPhotos" spinner="spiral"></infinite-loading>
+                    <infinite-loading
+                        @infinite="loadPhotos" spinner="spiral"></infinite-loading>
                 </div>
             </div>
         </div>
@@ -48,22 +49,46 @@
             InfiniteLoading,
             DropdownFilter
         },
+        props: {
+            breed: {
+                type: String,
+                default: null
+            }
+        },
         computed: {
             photoUrls: {
                 get: function() { return this.$store.state.photoUrls },
                 set: function(payload) { this.$store.dispatch('setPhotoUrls', payload) }
             },
             randomBreedUrl () { return this.$store.state.randomBreedUrl },
-            currentUrl () { return this.$store.state.currentUrl },
-            infiniteId () { return this.$store.state.infiniteId },
+            currentBreed: {
+                get () { return this.$store.state.currentBreed },
+                set (breed) { this.setCurrentBreed(breed) }
+            },
         },
         methods: {
             ...mapActions([
-                'loadCustomBreedPhotos'
+                'setCurrentBreed'
             ]),
 
             loadPhotos ($state) {
-                fetch(this.currentUrl)
+                let breedUrl = ''
+                if (this.breed !== null) {
+                    let breedArray = this.breed.split('-')
+
+                    if (breedArray.length > 1) {
+                        breedUrl = 'https://dog.ceo/api/breed/'+breedArray[1]+'/'+breedArray[0]+'/images/random/10'
+                        this.currentBreed = breedArray[0]+' '+breedArray[1]
+                    } else {
+                        breedUrl = 'https://dog.ceo/api/breed/' + this.breed + '/images/random/10'
+                        this.currentBreed = this.breed
+                    }
+
+                } else {
+                    breedUrl = this.randomBreedUrl
+                }
+
+                fetch(breedUrl)
                     .then(response => response.json())
                     .then(response => this.photoUrls.push(...response.message))
                     .then(() => $state.loaded())

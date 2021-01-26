@@ -2,15 +2,15 @@ let mutations = {
     setPhotoUrlsMutation (state, payload) {
         state.photoUrls = payload
     },
-    incrementInfiniteIdMutation (state, payload) {
-        state.infiniteId += payload
+    resetPhotoUrlsMutation (state) {
+        state.photoUrls = []
     },
-    setPreviousUrlMutation (state, payload) {
-        state.previousUrl = payload
+    setCurrentBreedMutation (state, payload) {
+        state.currentBreed = payload
     },
-    setCurrentUrlMutation (state, payload) {
-        state.currentUrl = payload
-    }
+    setIsNewBreedMutation (state, payload) {
+        state.previousBreed = payload
+    },
 }
 
 export default mutations

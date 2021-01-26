@@ -52,7 +52,7 @@
                         <div
                             class="flex items-center py-1 hover:bg-purple-200 pl-3 cursor-pointer"
                             :class="{'bg-purple-100':currentBreed === 'Random Breeds'}"
-                            @click="changeCurrentUrl(randomBreedUrl, 'Random Breeds')"
+                            @click="changeBreed('', 'Random Breeds')"
                         >
                             <span class="ml-3 block font-normal truncate capitalize text-gray-700">
                                 Random Breeds
@@ -78,10 +78,19 @@
                         <div
                             class="flex items-center py-1 hover:bg-purple-200 pl-3 cursor-pointer"
                             :class="{'bg-purple-100':currentBreed === breed}"
-                            @click="changeCurrentUrl('https://dog.ceo/api/breed/'+breed+'/images/random/10', breed)"
+                            @click="changeBreed('breed/'+breed, breed)"
                         >
                             <span class="ml-3 block font-normal truncate capitalize text-gray-700">
                                 {{ breed }}
+                            </span>
+                            <span
+                                v-if="currentBreed === breed"
+                                class="ml-auto items-center pr-4"
+                            >
+                                <!-- Heroicon name: check -->
+                                <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
                             </span>
                         </div>
                         <div v-if="breeds[breed].length">
@@ -91,18 +100,16 @@
                             <ul>
                                 <li
                                     v-for="subBreed in breeds[breed]"
-                                    class="pl-6 py-1 capitalize hover:bg-purple-200 flex cursor-pointer"
+                                    class="pl-6 py-1 capitalize hover:bg-purple-200 flex cursor-pointer items-center"
                                     :class="{'bg-purple-100':currentBreed === subBreed+' '+breed}"
-                                    @click="changeCurrentUrl('https://dog.ceo/api/breed/'+breed+'/'+subBreed+'/images/random/10', subBreed+' '+breed)"
+                                    @click="changeBreed('breed/'+subBreed+'-'+breed, subBreed+' '+breed)"
                                 >
                                     <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                                         <path fill="currentColor" d="M12,10A2,2 0 0,0 10,12C10,13.11 10.9,14 12,14C13.11,14 14,13.11 14,12A2,2 0 0,0 12,10Z" />
                                     </svg>
-                                    <div>
-                                        <span class="text-gray-700">
-                                            {{ subBreed+' '+breed }}
-                                        </span>
-                                    </div>
+                                    <span class="text-gray-700">
+                                        {{ subBreed+' '+breed }}
+                                    </span>
                                     <span
                                         v-if="currentBreed === subBreed+' '+breed"
                                         class="items-center pr-4 ml-auto"
@@ -115,15 +122,6 @@
                                 </li>
                             </ul>
                         </div>
-                        <span
-                            v-if="currentBreed === breed"
-                            class="absolute inset-y-0 right-0 flex items-center pr-4"
-                        >
-                            <!-- Heroicon name: check -->
-                            <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
                     </li>
                 </ul>
             </div>
@@ -140,9 +138,6 @@
             return {
                 showMenu: false,
                 breeds: {},
-                randomBreedUrl: 'https://dog.ceo/api/breeds/image/random/10',
-                allBreedsUrl: 'https://dog.ceo/api/breeds/list/all',
-                currentBreed: 'Random Breeds'
             }
         },
         created() {
@@ -162,42 +157,36 @@
             this.getAllBreeds()
         },
         computed: {
-            currentUrl: {
-                get () { return this.$store.state.currentUrl },
-                set (url) { this.setCurrentUrl(url) }
-            },
-            previousUrl: {
-                get () { return this.$store.state.previousUrl },
-                set (url) { this.setPreviousUrl(url) }
-            },
             photoUrls: {
                 get () { return this.$store.state.photoUrls },
-                set: function(payload) { this.setPhotoUrls(payload) }
+                set (payload) { this.setPhotoUrls(payload) }
             },
+
+            currentBreed: {
+                get () { return this.$store.state.currentBreed },
+                set (breed) { this.setCurrentBreed(breed) }
+            }
         },
         methods: {
             ...mapActions([
-                'incrementInfiniteId',
                 'setPhotoUrls',
-                'setPreviousUrl',
-                'setCurrentUrl'
+                'resetPhotoUrls',
+                'setCurrentBreed'
             ]),
             getAllBreeds () {
-                fetch(this.allBreedsUrl)
+                fetch('https://dog.ceo/api/breeds/list/all')
                     .then(response => response.json())
                     .then(response => this.breeds =response.message)
                     .catch(error => console.log(error))
             },
-            changeCurrentUrl (newUrl, breed) {
-                if (this.previousUrl !== newUrl) {
-                    this.previousUrl = newUrl
-                    this.photoUrls = []
-                }
-                this.currentUrl = newUrl
-                this.currentBreed = breed
+            changeBreed (breed, displayBreed) {
                 this.showMenu = false
-                this.incrementInfiniteId(1)
-            }
+                this.currentBreed = displayBreed
+
+                this.$store.dispatch('resetPhotoUrls').then(() => {
+                    this.$inertia.get('/'+breed)
+                })
+            },
         }
     }
 </script>
